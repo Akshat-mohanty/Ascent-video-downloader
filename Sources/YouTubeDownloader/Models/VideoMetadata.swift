@@ -33,6 +33,42 @@ public struct VideoMetadata: Identifiable, Codable, Equatable {
         }
     }
 
+    public func approximateSize(for quality: QualityOption) -> String {
+        let dur = max(duration, 30)
+        let bytesPerSec: Double
+        switch quality {
+        case .thumbnail:
+            return "~1.2 MB"
+        case .audioMp3:
+            bytesPerSec = 24_000
+        case .hd720:
+            bytesPerSec = 320_000
+        case .fhd1080:
+            bytesPerSec = 580_000
+        case .qhd1440:
+            bytesPerSec = 1_150_000
+        case .uhd4k:
+            bytesPerSec = 2_300_000
+        case .maxQuality:
+            let maxH = availableHeights.first ?? 1080
+            if maxH >= 2160 {
+                bytesPerSec = 2_300_000
+            } else if maxH >= 1440 {
+                bytesPerSec = 1_150_000
+            } else if maxH >= 1080 {
+                bytesPerSec = 580_000
+            } else {
+                bytesPerSec = 320_000
+            }
+        }
+        let totalMB = (bytesPerSec * dur) / 1_000_000.0
+        if totalMB >= 1000 {
+            return String(format: "~%.1f GB", totalMB / 1000.0)
+        } else {
+            return String(format: "~%.0f MB", totalMB)
+        }
+    }
+
     public static func parse(from jsonData: Data) throws -> VideoMetadata {
         guard let json = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
             throw NSError(domain: "VideoMetadata", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON response"])

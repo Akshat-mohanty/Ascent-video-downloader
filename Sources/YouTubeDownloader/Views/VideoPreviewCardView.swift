@@ -94,9 +94,16 @@ public struct VideoPreviewCardView: View {
                             Text("•")
                                 .foregroundColor(.secondary)
                             Text(metadata.formattedViews)
-                                .font(.system(size: 12))
+                                .font(.system(size: 13, weight: .medium))
                                 .foregroundColor(.secondary)
                         }
+
+                        Text("•")
+                            .foregroundColor(.secondary)
+
+                        Text("approx size : \(metadata.approximateSize(for: selectedQuality))")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(.secondary)
                     }
                 }
 
