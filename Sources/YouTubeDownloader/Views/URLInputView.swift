@@ -184,7 +184,7 @@ public struct URLInputView: View {
             if let clipUrl = clipboard.detectedYouTubeURL, clipUrl != urlText {
                 HStack(spacing: 10) {
                     Image(systemName: "link.badge.plus")
-                        .foregroundColor(.blue)
+                        .foregroundColor(.white)
                         .font(.system(size: 13))
 
                     VStack(alignment: .leading, spacing: 1) {
@@ -209,9 +209,10 @@ public struct URLInputView: View {
                             .font(.system(size: 11, weight: .semibold))
                             .padding(.horizontal, 10)
                             .padding(.vertical, 4)
-                            .background(Color.blue.opacity(0.15))
-                            .foregroundColor(.blue)
+                            .background(Color.white)
+                            .foregroundColor(.black)
                             .cornerRadius(6)
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
                     }
                     .buttonStyle(.plain)
 
@@ -232,7 +233,7 @@ public struct URLInputView: View {
                         .fill(Color(nsColor: .controlBackgroundColor))
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                                .stroke(Color.primary.opacity(0.12), lineWidth: 1)
                         )
                 )
                 .transition(.opacity.combined(with: .move(edge: .top)))
