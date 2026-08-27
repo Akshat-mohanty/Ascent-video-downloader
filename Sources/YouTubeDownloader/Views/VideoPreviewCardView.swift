@@ -140,7 +140,7 @@ public struct VideoPreviewCardView: View {
 
                     HStack(spacing: 6) {
                         Image(systemName: "folder.fill")
-                            .foregroundColor(.blue)
+                            .foregroundColor(.white)
                             .font(.system(size: 12))
                         Text(downloadDirectory.lastPathComponent)
                             .font(.system(size: 12, weight: .semibold))
@@ -149,7 +149,8 @@ public struct VideoPreviewCardView: View {
                         Button(action: selectFolder) {
                             Text("Change...")
                                 .font(.system(size: 11))
-                                .foregroundColor(.blue)
+                                .foregroundColor(.white.opacity(0.85))
+                                .underline()
                         }
                         .buttonStyle(.plain)
                     }
