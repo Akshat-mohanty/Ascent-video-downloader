@@ -81,6 +81,14 @@ public struct DownloadProgressView: View {
                                 .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(.green)
                         }
+                    } else if task.status == .cancelled {
+                        HStack(spacing: 4) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
+                            Text("Cancelled")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(.secondary)
+                        }
                     } else if task.status == .failed {
                         HStack(spacing: 4) {
                             Image(systemName: "exclamationmark.triangle.fill")
@@ -113,8 +121,11 @@ public struct DownloadProgressView: View {
                                 .frame(width: geometry.size.width, height: 8)
                         } else if task.status == .failed {
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(Color.red)
+                                .fill(Color.red.opacity(0.8))
                                 .frame(width: geometry.size.width, height: 8)
+                        } else if task.status == .cancelled {
+                            // Keep empty track when cancelled
+                            EmptyView()
                         } else {
                             let progressWidth = max(8, geometry.size.width * CGFloat(task.progress))
                             RoundedRectangle(cornerRadius: 6)
@@ -306,7 +317,7 @@ public struct DownloadProgressView: View {
         case .failed:
             return "Download interrupted"
         case .cancelled:
-            return "Download cancelled"
+            return "Cancelled"
         }
     }
 }

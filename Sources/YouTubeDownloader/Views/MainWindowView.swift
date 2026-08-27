@@ -286,6 +286,9 @@ public struct MainWindowView: View {
                     HistoryStore.shared.addTask(current)
                     self.sendNotification(title: "Download Complete!", body: "\(metadata.title) has finished downloading.")
                 case .failure(let error):
+                    if current.status == .cancelled {
+                        return
+                    }
                     current.status = .failed
                     current.errorMessage = error.localizedDescription
                     self.currentDownloadTask = current
