@@ -1,3 +1,6 @@
+![Uploading Screenshot 2026-08-27 at 5.39.52 PM.png…]()
+
+
 # Ascent - Native macOS YouTube Downloader
 
 A high-performance native macOS application built with SwiftUI, yt-dlp, and FFmpeg designed to download YouTube videos in the highest possible video and audio quality with seamless multiplexing.
