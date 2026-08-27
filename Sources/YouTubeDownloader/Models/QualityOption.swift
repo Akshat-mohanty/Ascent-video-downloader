@@ -34,7 +34,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .hd720: return "720p"
         case .audioMp3: return "MP3"
         case .audioM4a: return "M4A"
-        case .thumbnail: return "COVER"
+        case .thumbnail: return "Thumbnail"
         }
     }
 
