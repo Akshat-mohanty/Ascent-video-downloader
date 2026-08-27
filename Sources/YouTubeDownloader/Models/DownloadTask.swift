@@ -14,7 +14,7 @@ public enum DownloadStatus: String, Codable, Equatable {
         case .idle: return "Ready"
         case .fetchingInfo: return "Fetching Details..."
         case .downloading: return "Downloading..."
-        case .merging: return "Merging Audio & Video with FFmpeg..."
+        case .merging: return "Merging Audio & Video..."
         case .completed: return "Completed"
         case .failed: return "Failed"
         case .cancelled: return "Cancelled"

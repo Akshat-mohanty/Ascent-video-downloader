@@ -207,7 +207,7 @@ public final class YtDlpService: ObservableObject {
                                 eta: "",
                                 downloadedSize: "",
                                 totalSize: "",
-                                statusText: "Merging audio & video with FFmpeg..."
+                                statusText: "Merging audio & video..."
                             ))
                         }
                     } else if trimmed.contains("[download]") {

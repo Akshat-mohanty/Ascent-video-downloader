@@ -89,10 +89,6 @@ public struct DownloadProgressView: View {
                                 .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(.red)
                         }
-                    } else if task.status == .merging {
-                        Text("FFmpeg Mux")
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundColor(.purple)
                     } else {
                         Text("\(Int(task.progress * 100))%")
                             .font(.system(size: 20, weight: .bold, design: .rounded))
@@ -304,7 +300,7 @@ public struct DownloadProgressView: View {
         case .downloading:
             return task.progress >= 0.99 ? "Finalizing streams..." : "Downloading video + audio streams..."
         case .merging:
-            return "Merging video & audio losslessly with FFmpeg..."
+            return "Merging video & audio..."
         case .completed:
             return "Download & merge complete!"
         case .failed:
