@@ -117,9 +117,9 @@ public struct URLInputView: View {
                                 ProgressView()
                                     .controlSize(.small)
                             } else {
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 12))
-                                Text("Inspect")
+                                Image(systemName: "arrow.down.circle.fill")
+                                    .font(.system(size: 13))
+                                Text("Download")
                                     .font(.system(size: 13, weight: .semibold))
                             }
                         }
