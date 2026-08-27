@@ -239,14 +239,14 @@ public struct DownloadProgressView: View {
         .padding(24)
         .frame(maxWidth: .infinity)
         .background(
-            RoundedRectangle(cornerRadius: 18)
-                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.85))
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(nsColor: .controlBackgroundColor))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.primary.opacity(0.08), lineWidth: 1)
                 )
         )
-        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+        .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
     }
 }
 

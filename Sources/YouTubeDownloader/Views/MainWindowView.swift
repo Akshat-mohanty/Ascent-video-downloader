@@ -19,52 +19,62 @@ public struct MainWindowView: View {
 
     public var body: some View {
         ZStack {
-            // Aesthetic dynamic background gradient
-            LinearGradient(
-                colors: [
-                    Color.blue.opacity(0.08),
-                    Color.purple.opacity(0.06),
-                    Color(nsColor: .windowBackgroundColor)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            // Elegant Warm Ivory Backdrop (Adaptive for Light/Dark Mode)
+            Color(nsColor: .windowBackgroundColor)
+                .overlay(
+                    LinearGradient(
+                        colors: [
+                            Color.primary.opacity(0.015),
+                            Color.clear,
+                            Color.primary.opacity(0.02)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Top App Bar
-                HStack(spacing: 14) {
-                    // App Brand
-                    HStack(spacing: 10) {
+                // Top Floating Navbar
+                HStack {
+                    // Logo & Brand
+                    HStack(spacing: 9) {
                         ZStack {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.red, Color.purple],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 32, height: 32)
-                                .shadow(color: Color.red.opacity(0.4), radius: 6, x: 0, y: 2)
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(red: 0.12, green: 0.12, blue: 0.14))
+                                .frame(width: 28, height: 28)
 
-                            Image(systemName: "arrow.down")
-                                .font(.system(size: 16, weight: .bold))
+                            Text("A")
+                                .font(.system(size: 15, weight: .black, design: .serif))
                                 .foregroundColor(.white)
                         }
 
-                        VStack(alignment: .leading, spacing: 1) {
-                            Text("Ascent")
-                                .font(.system(size: 16, weight: .black, design: .rounded))
-                                .foregroundColor(.primary)
-
-                            Text("Max Quality Video & Audio Downloader")
-                                .font(.system(size: 10))
-                                .foregroundColor(.secondary)
-                        }
+                        Text("Ascent")
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.primary)
                     }
 
                     Spacer()
+
+                    // Engine Status Pill
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 6, height: 6)
+                        Text("yt-dlp & FFmpeg Active")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule()
+                            .fill(Color(nsColor: .controlBackgroundColor))
+                            .overlay(
+                                Capsule()
+                                    .stroke(Color.primary.opacity(0.08), lineWidth: 1)
+                            )
+                    )
 
                     // Tab Segment
                     Picker("", selection: $selectedTab) {
@@ -72,38 +82,78 @@ public struct MainWindowView: View {
                         Text("History (\(historyStore.items.count))").tag(1)
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: 200)
+                    .frame(width: 170)
 
                     // Settings Button
                     Button(action: { showSettings = true }) {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 14))
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 13))
                             .foregroundColor(.secondary)
-                            .padding(8)
-                            .background(Color(nsColor: .controlColor).opacity(0.5))
-                            .cornerRadius(8)
+                            .padding(6)
+                            .background(
+                                Circle()
+                                    .fill(Color(nsColor: .controlBackgroundColor))
+                                    .overlay(
+                                        Circle()
+                                            .stroke(Color.primary.opacity(0.08), lineWidth: 1)
+                                    )
+                            )
                     }
                     .buttonStyle(.plain)
                     .help("Preferences")
                 }
                 .padding(.horizontal, 24)
-                .padding(.vertical, 16)
-                .background(.ultraThinMaterial)
+                .padding(.vertical, 14)
+                .background(
+                    Rectangle()
+                        .fill(Color(nsColor: .windowBackgroundColor).opacity(0.8))
+                        .overlay(
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(Color.primary.opacity(0.06)),
+                            alignment: .bottom
+                        )
+                )
 
-                Divider()
-                    .opacity(0.4)
-
-                // Body content
+                // Main Scrollable Area
                 ScrollView {
-                    VStack(spacing: 22) {
+                    VStack(spacing: 24) {
                         if selectedTab == 0 {
-                            // URL Input Bar
+                            // Editorial Hero Header (Matching Screenshot Design)
+                            VStack(spacing: 8) {
+                                Text("Download any\nYouTube video\n*instantly.*")
+                                    .font(.system(size: 34, weight: .bold, design: .serif))
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.primary)
+                                    .lineSpacing(2)
+
+                                Text("Paste any YouTube link to download video + audio\nin the highest possible quality.")
+                                    .font(.system(size: 13))
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
+                                    .lineSpacing(3)
+                                    .padding(.top, 2)
+
+                                // Stepper Pill Tracker
+                                HStack(spacing: 12) {
+                                    StepIndicator(number: "1", title: "Paste Link", isActive: currentMetadata == nil && currentDownloadTask == nil)
+                                    StepDivider()
+                                    StepIndicator(number: "2", title: "Inspect Quality", isActive: currentMetadata != nil && currentDownloadTask == nil)
+                                    StepDivider()
+                                    StepIndicator(number: "3", title: "Download & Merge", isActive: currentDownloadTask != nil)
+                                }
+                                .padding(.top, 12)
+                            }
+                            .padding(.top, 12)
+
+                            // Main Input Box (Design from Screenshot)
                             URLInputView(
                                 urlText: $urlInput,
                                 isLoading: isFetchingMetadata,
                                 onFetch: { fetchVideoInfo() },
                                 onPasteAndFetch: { fetchVideoInfo() }
                             )
+                            .frame(maxWidth: 640)
 
                             // Active Download Progress or Video Preview
                             if let task = currentDownloadTask {
@@ -112,6 +162,7 @@ public struct MainWindowView: View {
                                     onCancel: { cancelDownload() },
                                     onReset: { resetState() }
                                 )
+                                .frame(maxWidth: 640)
                                 .transition(.scale.combined(with: .opacity))
                             } else if let metadata = currentMetadata {
                                 VideoPreviewCardView(
@@ -120,26 +171,25 @@ public struct MainWindowView: View {
                                     downloadDirectory: $downloadDirectory,
                                     onStartDownload: { startDownload() }
                                 )
+                                .frame(maxWidth: 640)
                                 .transition(.asymmetric(
-                                    insertion: .scale(scale: 0.95).combined(with: .opacity),
+                                    insertion: .scale(scale: 0.96).combined(with: .opacity),
                                     removal: .opacity
                                 ))
-                            } else {
-                                // Default landing hero
-                                LandingHeroView()
-                                    .padding(.top, 10)
                             }
                         } else {
                             // History Tab
                             HistoryListView()
-                                .padding(.top, 10)
+                                .frame(maxWidth: 680)
+                                .padding(.top, 12)
                         }
                     }
-                    .padding(24)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 36)
                 }
             }
         }
-        .frame(minWidth: 700, minHeight: 560)
+        .frame(minWidth: 720, minHeight: 580)
         .sheet(isPresented: $showSettings) {
             SettingsSheetView(downloadDirectory: $downloadDirectory)
         }
@@ -279,85 +329,30 @@ public struct MainWindowView: View {
     }
 }
 
-struct LandingHeroView: View {
-    var body: some View {
-        VStack(spacing: 16) {
-            Spacer()
-                .frame(height: 30)
-
-            ZStack {
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            colors: [Color.purple.opacity(0.25), Color.blue.opacity(0.08), Color.clear],
-                            center: .center,
-                            startRadius: 10,
-                            endRadius: 70
-                        )
-                    )
-                    .frame(width: 130, height: 130)
-
-                Image(systemName: "arrow.down.to.line.circle.fill")
-                    .font(.system(size: 52))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color.blue, Color.purple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-
-            VStack(spacing: 6) {
-                Text("Ready to Download")
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(.primary)
-
-                Text("Paste any YouTube video or shorts link above to get started.")
-                    .font(.system(size: 13))
-                    .foregroundColor(.secondary)
-            }
-
-            HStack(spacing: 8) {
-                StepChip(num: "1", text: "Copy link")
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary.opacity(0.4))
-                    .font(.system(size: 10))
-                StepChip(num: "2", text: "Inspect & choose quality")
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary.opacity(0.4))
-                    .font(.system(size: 10))
-                StepChip(num: "3", text: "Download in 4K/1080p")
-            }
-            .padding(.top, 8)
-
-            Spacer()
-                .frame(height: 20)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
-    }
-}
-
-struct StepChip: View {
-    let num: String
-    let text: String
+struct StepIndicator: View {
+    let number: String
+    let title: String
+    let isActive: Bool
 
     var body: some View {
         HStack(spacing: 6) {
-            Text(num)
-                .font(.system(size: 10, weight: .black))
-                .foregroundColor(.white)
+            Text(number)
+                .font(.system(size: 10, weight: .bold))
+                .foregroundColor(isActive ? .white : .secondary)
                 .frame(width: 18, height: 18)
-                .background(Circle().fill(Color.blue))
+                .background(Circle().fill(isActive ? Color.primary : Color.primary.opacity(0.12)))
 
-            Text(text)
-                .font(.system(size: 11, weight: .medium))
-                .foregroundColor(.secondary)
+            Text(title)
+                .font(.system(size: 11, weight: isActive ? .semibold : .regular))
+                .foregroundColor(isActive ? .primary : .secondary)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
-        .background(Color(nsColor: .controlColor).opacity(0.6))
-        .cornerRadius(20)
+    }
+}
+
+struct StepDivider: View {
+    var body: some View {
+        Rectangle()
+            .fill(Color.primary.opacity(0.15))
+            .frame(width: 20, height: 1)
     }
 }

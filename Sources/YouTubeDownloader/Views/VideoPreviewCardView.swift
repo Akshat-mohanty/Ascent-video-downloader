@@ -176,22 +176,18 @@ public struct VideoPreviewCardView: View {
                 Button(action: onStartDownload) {
                     HStack(spacing: 8) {
                         Image(systemName: "arrow.down.circle.fill")
-                            .font(.system(size: 16))
+                            .font(.system(size: 15))
                         Text(selectedQuality == .maxQuality ? "Download Highest Quality" : "Download (\(selectedQuality.shortTitle))")
-                            .font(.system(size: 14, weight: .bold))
+                            .font(.system(size: 13, weight: .bold))
                     }
                     .foregroundColor(.white)
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
+                    .padding(.vertical, 11)
                     .background(
-                        LinearGradient(
-                            colors: [Color.blue, Color.purple, Color.pink],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(red: 0.18, green: 0.18, blue: 0.20))
                     )
-                    .cornerRadius(12)
-                    .shadow(color: Color.purple.opacity(0.4), radius: 8, x: 0, y: 4)
+                    .shadow(color: Color.black.opacity(0.12), radius: 6, x: 0, y: 3)
                     .scaleEffect(isHovering ? 1.02 : 1.0)
                 }
                 .buttonStyle(.plain)
@@ -204,21 +200,14 @@ public struct VideoPreviewCardView: View {
         }
         .padding(20)
         .background(
-            RoundedRectangle(cornerRadius: 18)
-                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.8))
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(nsColor: .controlBackgroundColor))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 18)
-                        .stroke(
-                            LinearGradient(
-                                colors: [Color.purple.opacity(0.4), Color.blue.opacity(0.2)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 1
-                        )
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.primary.opacity(0.08), lineWidth: 1)
                 )
         )
-        .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 5)
+        .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
     }
 
     private func isOptionAvailable(_ option: QualityOption) -> Bool {

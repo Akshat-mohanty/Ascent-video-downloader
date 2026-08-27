@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 public struct URLInputView: View {
     @Binding public var urlText: String
@@ -23,19 +24,149 @@ public struct URLInputView: View {
 
     public var body: some View {
         VStack(spacing: 12) {
-            // Auto clipboard detection banner
+            // Main Input Container Card
+            VStack(alignment: .leading, spacing: 14) {
+                // Header inside the card: Label + Paste Button
+                HStack {
+                    HStack(spacing: 6) {
+                        Image(systemName: "play.rectangle.fill")
+                            .font(.system(size: 11))
+                            .foregroundColor(Color.primary.opacity(0.6))
+
+                        Text("YOUTUBE VIDEO LINK")
+                            .font(.system(size: 11, weight: .bold, design: .monospaced))
+                            .foregroundColor(Color.primary.opacity(0.55))
+                            .tracking(0.8)
+                    }
+
+                    Spacer()
+
+                    // Aesthetic Paste Button (matching screenshot design)
+                    Button(action: {
+                        if let clip = clipboard.getPasteboardString(), !clip.isEmpty {
+                            urlText = clip
+                            clipboard.dismissDetection()
+                            onPasteAndFetch()
+                        }
+                    }) {
+                        HStack(spacing: 5) {
+                            Image(systemName: "doc.on.clipboard")
+                                .font(.system(size: 11))
+                            Text("Paste")
+                                .font(.system(size: 11, weight: .semibold))
+                        }
+                        .foregroundColor(Color.primary.opacity(0.8))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.9))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.primary.opacity(0.12), lineWidth: 1)
+                                )
+                        )
+                    }
+                    .buttonStyle(.plain)
+                }
+
+                // Main Input Row: Textfield + Action Button
+                HStack(spacing: 10) {
+                    HStack(spacing: 8) {
+                        TextField("https://www.youtube.com/watch?v=...", text: $urlText)
+                            .textFieldStyle(.plain)
+                            .font(.system(size: 13, design: .monospaced))
+                            .focused($isFieldFocused)
+                            .onSubmit {
+                                if !urlText.isEmpty && !isLoading {
+                                    onFetch()
+                                }
+                            }
+
+                        if !urlText.isEmpty {
+                            Button(action: {
+                                urlText = ""
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(Color.primary.opacity(0.4))
+                                    .font(.system(size: 13))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 11)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.primary.opacity(0.04))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(isFieldFocused ? Color.primary.opacity(0.35) : Color.primary.opacity(0.08), lineWidth: 1)
+                            )
+                    )
+
+                    // Dark Slate Action Button (matching screenshot)
+                    Button(action: {
+                        onFetch()
+                    }) {
+                        HStack(spacing: 6) {
+                            if isLoading {
+                                ProgressView()
+                                    .controlSize(.small)
+                            } else {
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 12))
+                                Text("Inspect")
+                                    .font(.system(size: 13, weight: .semibold))
+                            }
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 11)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(red: 0.22, green: 0.22, blue: 0.24))
+                        )
+                        .shadow(color: Color.black.opacity(0.12), radius: 4, x: 0, y: 2)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
+                }
+
+                // Footer helper note
+                HStack(spacing: 5) {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 11))
+                    Text("Supports standard videos, shorts, podcasts, and livestreams")
+                        .font(.system(size: 11))
+                }
+                .foregroundColor(Color.primary.opacity(0.45))
+                .padding(.top, 2)
+            }
+            .padding(18)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(nsColor: .controlBackgroundColor))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.primary.opacity(0.08), lineWidth: 1)
+                    )
+            )
+            .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 4)
+
+            // Auto Clipboard Detection Banner if present
             if let clipUrl = clipboard.detectedYouTubeURL, clipUrl != urlText {
                 HStack(spacing: 10) {
-                    Image(systemName: "doc.on.clipboard.fill")
-                        .foregroundColor(.cyan)
-                        .font(.system(size: 14))
+                    Image(systemName: "link.badge.plus")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 13))
 
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("YouTube Link Detected in Clipboard")
-                            .font(.system(size: 12, weight: .semibold))
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text("YouTube Link in Clipboard")
+                            .font(.system(size: 11, weight: .semibold))
                             .foregroundColor(.primary)
                         Text(clipUrl)
-                            .font(.system(size: 11))
+                            .font(.system(size: 10, design: .monospaced))
                             .foregroundColor(.secondary)
                             .lineLimit(1)
                             .truncationMode(.middle)
@@ -48,16 +179,13 @@ public struct URLInputView: View {
                         clipboard.dismissDetection()
                         onPasteAndFetch()
                     }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "arrow.down.circle.fill")
-                            Text("Paste & Load")
-                        }
-                        .font(.system(size: 11, weight: .semibold))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.cyan.opacity(0.2))
-                        .foregroundColor(.cyan)
-                        .cornerRadius(8)
+                        Text("Paste & Load")
+                            .font(.system(size: 11, weight: .semibold))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(Color.blue.opacity(0.15))
+                            .foregroundColor(.blue)
+                            .cornerRadius(6)
                     }
                     .buttonStyle(.plain)
 
@@ -65,126 +193,24 @@ public struct URLInputView: View {
                         clipboard.dismissDetection()
                     }) {
                         Image(systemName: "xmark")
-                            .font(.system(size: 10, weight: .bold))
+                            .font(.system(size: 9, weight: .bold))
                             .foregroundColor(.secondary)
                             .padding(4)
                     }
                     .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 14)
-                .padding(.vertical, 10)
+                .padding(.vertical, 8)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(nsColor: .controlBackgroundColor).opacity(0.8))
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(nsColor: .controlBackgroundColor))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.cyan.opacity(0.4), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.blue.opacity(0.2), lineWidth: 1)
                         )
                 )
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity
-                ))
+                .transition(.opacity.combined(with: .move(edge: .top)))
             }
-
-            // Main Input Box
-            HStack(spacing: 12) {
-                Image(systemName: "play.rectangle.fill")
-                    .font(.system(size: 20))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color.red, Color.pink],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-
-                TextField("Paste YouTube video, shorts, or music link here...", text: $urlText)
-                    .textFieldStyle(.plain)
-                    .font(.system(size: 14))
-                    .focused($isFieldFocused)
-                    .onSubmit {
-                        if !urlText.isEmpty && !isLoading {
-                            onFetch()
-                        }
-                    }
-
-                if !urlText.isEmpty {
-                    Button(action: {
-                        urlText = ""
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                            .font(.system(size: 14))
-                    }
-                    .buttonStyle(.plain)
-                }
-
-                Button(action: {
-                    if let clip = clipboard.getPasteboardString() {
-                        urlText = clip
-                        if !urlText.isEmpty {
-                            onFetch()
-                        }
-                    }
-                }) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "doc.on.clipboard")
-                        Text("Paste")
-                    }
-                    .font(.system(size: 12, weight: .medium))
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color(nsColor: .controlColor))
-                    .cornerRadius(8)
-                }
-                .buttonStyle(.plain)
-
-                Button(action: {
-                    onFetch()
-                }) {
-                    HStack(spacing: 6) {
-                        if isLoading {
-                            ProgressView()
-                                .controlSize(.small)
-                        } else {
-                            Image(systemName: "sparkle.magnifyingglass")
-                            Text("Inspect")
-                        }
-                    }
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 7)
-                    .background(
-                        LinearGradient(
-                            colors: [Color.blue, Color.purple],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .cornerRadius(8)
-                    .shadow(color: Color.blue.opacity(0.3), radius: 4, x: 0, y: 2)
-                }
-                .buttonStyle(.plain)
-                .disabled(urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(nsColor: .controlBackgroundColor).opacity(0.85))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(
-                                isFieldFocused ?
-                                    LinearGradient(colors: [Color.blue, Color.purple], startPoint: .leading, endPoint: .trailing) :
-                                    LinearGradient(colors: [Color.gray.opacity(0.2), Color.gray.opacity(0.2)], startPoint: .leading, endPoint: .trailing),
-                                lineWidth: isFieldFocused ? 1.8 : 1
-                            )
-                    )
-            )
-            .animation(.easeInOut(duration: 0.2), value: isFieldFocused)
         }
     }
 }
