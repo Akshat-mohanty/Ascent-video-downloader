@@ -7,7 +7,6 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
     case fhd1080 = "1080p"
     case hd720 = "720p"
     case audioMp3 = "mp3"
-    case audioM4a = "m4a"
     case thumbnail = "thumb"
 
     public var id: String { rawValue }
@@ -20,7 +19,6 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .fhd1080: return "Full HD (1080p)"
         case .hd720: return "HD (720p)"
         case .audioMp3: return "Audio Only (MP3)"
-        case .audioM4a: return "Audio Only (M4A)"
         case .thumbnail: return "HD Thumbnail (JPG)"
         }
     }
@@ -33,7 +31,6 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .fhd1080: return "1080p"
         case .hd720: return "720p"
         case .audioMp3: return "MP3"
-        case .audioM4a: return "M4A"
         case .thumbnail: return "Thumbnail"
         }
     }
@@ -42,7 +39,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         switch self {
         case .maxQuality: return "sparkles.tv.fill"
         case .uhd4k, .qhd1440, .fhd1080, .hd720: return "film.fill"
-        case .audioMp3, .audioM4a: return "music.note"
+        case .audioMp3: return "music.note"
         case .thumbnail: return "photo.fill"
         }
     }
@@ -51,7 +48,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         switch self {
         case .maxQuality, .uhd4k, .qhd1440, .fhd1080, .hd720:
             return "Video"
-        case .audioMp3, .audioM4a:
+        case .audioMp3:
             return "Audio"
         case .thumbnail:
             return "Image"
@@ -59,7 +56,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
     }
 
     public var isAudioOnly: Bool {
-        return self == .audioMp3 || self == .audioM4a
+        return self == .audioMp3
     }
 
     public var isThumbnail: Bool {
@@ -105,8 +102,6 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
             ]
         case .audioMp3:
             return ["-x", "--audio-format", "mp3", "--audio-quality", "0"]
-        case .audioM4a:
-            return ["-x", "--audio-format", "m4a"]
         case .thumbnail:
             return ["--skip-download", "--write-thumbnail", "--convert-thumbnails", "jpg"]
         }

@@ -196,7 +196,7 @@ public struct VideoPreviewCardView: View {
 
     private func isOptionAvailable(_ option: QualityOption) -> Bool {
         switch option {
-        case .maxQuality, .audioMp3, .audioM4a, .thumbnail:
+        case .maxQuality, .audioMp3, .thumbnail:
             return true
         case .uhd4k:
             return metadata.availableHeights.contains { $0 >= 2160 }
