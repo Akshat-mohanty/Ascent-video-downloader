@@ -186,7 +186,19 @@ public final class YtDlpService: ObservableObject {
                         }
                     }
 
-                    if trimmed.contains("[Merger]") || trimmed.contains("[ffmpeg]") || trimmed.contains("Merging formats") {
+                    if trimmed.contains("[VideoConvertor]") || trimmed.contains("Converting video") {
+                        DispatchQueue.main.async {
+                            onStatusChange(.merging)
+                            onProgress(ProgressUpdate(
+                                progress: 0.98,
+                                speed: "",
+                                eta: "",
+                                downloadedSize: "",
+                                totalSize: "",
+                                statusText: "Optimizing for QuickTime Player..."
+                            ))
+                        }
+                    } else if trimmed.contains("[Merger]") || trimmed.contains("[ffmpeg]") || trimmed.contains("Merging formats") {
                         DispatchQueue.main.async {
                             onStatusChange(.merging)
                             onProgress(ProgressUpdate(
