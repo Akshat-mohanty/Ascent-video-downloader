@@ -122,13 +122,8 @@ public struct DownloadProgressView: View {
                         } else {
                             let progressWidth = max(8, geometry.size.width * CGFloat(task.progress))
                             RoundedRectangle(cornerRadius: 6)
-                                .fill(
-                                    LinearGradient(
-                                        colors: [Color.blue, Color.cyan],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
+                                .fill(Color.white)
+                                .shadow(color: Color.white.opacity(0.35), radius: 3, x: 0, y: 0)
                                 .frame(width: progressWidth, height: 8)
                                 .animation(.linear(duration: 0.25), value: task.progress)
                         }
