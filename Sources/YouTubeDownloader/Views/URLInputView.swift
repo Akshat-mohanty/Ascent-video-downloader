@@ -76,6 +76,9 @@ public struct URLInputView: View {
                         TextField("https://www.youtube.com/watch?v=...", text: $urlText)
                             .textFieldStyle(.plain)
                             .font(.system(size: 13, design: .monospaced))
+                            .tint(.white)
+                            .accentColor(.white)
+                            .foregroundColor(.primary)
                             .focused($isFieldFocused)
                             .onSubmit {
                                 if !urlText.isEmpty && !isLoading {
@@ -101,7 +104,7 @@ public struct URLInputView: View {
                             .fill(Color.primary.opacity(0.04))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(isFieldFocused ? Color.primary.opacity(0.35) : Color.primary.opacity(0.08), lineWidth: 1)
+                                    .stroke(isFieldFocused ? Color.white.opacity(0.4) : Color.primary.opacity(0.08), lineWidth: 1)
                             )
                     )
 
