@@ -54,19 +54,9 @@ public struct MainWindowView: View {
                         }
 
                         VStack(alignment: .leading, spacing: 1) {
-                            HStack(spacing: 6) {
-                                Text("Ascent")
-                                    .font(.system(size: 16, weight: .black, design: .rounded))
-                                    .foregroundColor(.primary)
-
-                                Text("PRO")
-                                    .font(.system(size: 9, weight: .black))
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 5)
-                                    .padding(.vertical, 2)
-                                    .background(Color.red)
-                                    .cornerRadius(4)
-                            }
+                            Text("Ascent")
+                                .font(.system(size: 16, weight: .black, design: .rounded))
+                                .foregroundColor(.primary)
 
                             Text("Max Quality Video & Audio Downloader")
                                 .font(.system(size: 10))
