@@ -26,6 +26,14 @@ A high-performance, aesthetic native macOS application built with **SwiftUI**, *
 
 ## 🚀 How to Run
 
+### Quick Clone & Run
+```bash
+git clone https://github.com/Akshat-mohanty/Ascent-video-downloader.git
+cd Ascent-video-downloader
+./build_app.sh
+open "Ascent.app"
+```
+
 ### Option 1: Launch the Built `.app` (Recommended)
 You can directly open the packaged native application:
 ```bash
