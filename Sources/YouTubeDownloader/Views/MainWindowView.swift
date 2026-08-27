@@ -174,6 +174,26 @@ public struct MainWindowView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 24)
                 }
+
+                // Bottom Copyright Footer
+                HStack {
+                    Spacer()
+                    Text("© 2026 Akshat Mohanty")
+                        .font(.system(size: 10, weight: .regular))
+                        .foregroundColor(Color.primary.opacity(0.35))
+                    Spacer()
+                }
+                .padding(.vertical, 8)
+                .background(
+                    Rectangle()
+                        .fill(Color(nsColor: .windowBackgroundColor).opacity(0.5))
+                        .overlay(
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(Color.primary.opacity(0.04)),
+                            alignment: .top
+                        )
+                )
             }
         }
         .frame(minWidth: 720, minHeight: 580)
