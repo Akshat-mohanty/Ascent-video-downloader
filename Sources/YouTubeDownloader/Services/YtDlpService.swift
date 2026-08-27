@@ -302,14 +302,36 @@ public final class YtDlpService: ObservableObject {
             }
         }
 
+        let cleanSpeed = normalizeUnits(speed)
+        let cleanTotal = normalizeUnits(totalSize)
+        let cleanDownloaded = normalizeUnits(downloadedSize)
+
         return ProgressUpdate(
             progress: min(max(percent, 0.0), 1.0),
-            speed: speed.isEmpty ? "--" : speed,
+            speed: cleanSpeed.isEmpty ? "--" : cleanSpeed,
             eta: eta.isEmpty ? "--" : eta,
-            downloadedSize: downloadedSize,
-            totalSize: totalSize,
+            downloadedSize: cleanDownloaded,
+            totalSize: cleanTotal,
             statusText: percent >= 0.999 ? "Finalizing download..." : "Downloading..."
         )
+    }
+
+    private func normalizeUnits(_ text: String) -> String {
+        return text
+            .replacingOccurrences(of: "GiB/s", with: "GB/s")
+            .replacingOccurrences(of: "MiB/s", with: "MB/s")
+            .replacingOccurrences(of: "KiB/s", with: "KB/s")
+            .replacingOccurrences(of: "TiB/s", with: "TB/s")
+            .replacingOccurrences(of: "gib/s", with: "GB/s")
+            .replacingOccurrences(of: "mib/s", with: "MB/s")
+            .replacingOccurrences(of: "kib/s", with: "KB/s")
+            .replacingOccurrences(of: "GiB", with: "GB")
+            .replacingOccurrences(of: "MiB", with: "MB")
+            .replacingOccurrences(of: "KiB", with: "KB")
+            .replacingOccurrences(of: "TiB", with: "TB")
+            .replacingOccurrences(of: "gib", with: "GB")
+            .replacingOccurrences(of: "mib", with: "MB")
+            .replacingOccurrences(of: "kib", with: "KB")
     }
 
     private func matches(for regex: String, in text: String) -> [String] {
