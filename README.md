@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/app-preview.png" alt="Ascent App Preview" width="850" />
+  <img src="assets/app-preview-home.png" alt="Ascent Home Screen" width="850" />
+</p>
+
+<p align="center">
+  <img src="assets/app-preview-format.png" alt="Ascent Inspect Quality and Format Selector" width="850" />
 </p>
 
 # Ascent - Native macOS YouTube Downloader
