@@ -26,30 +26,11 @@ A high-performance native macOS application built with SwiftUI, yt-dlp, and FFmp
 
 ## How to Run
 
-### Quick Clone & Run
-```bash
-git clone https://github.com/Akshat-mohanty/Ascent-video-downloader.git
-cd Ascent-video-downloader
-./build_app.sh
-open "Ascent.app"
-```
-
 ### Launch the Built Application
 ```bash
 open "Ascent.app"
 ```
 Or double-click `Ascent.app` in Finder and drag it into your `/Applications` folder or macOS Dock.
-
-### Rebuild from Source
-```bash
-./build_app.sh
-```
-
-### Run via Swift CLI
-```bash
-swift run
-```
-
 ---
 
 ## License
