@@ -136,13 +136,8 @@ public struct MainWindowView: View {
                                 ))
                             } else {
                                 // Default landing hero
-                                LandingHeroView(
-                                    onPasteSample: { sampleUrl in
-                                        urlInput = sampleUrl
-                                        fetchVideoInfo()
-                                    }
-                                )
-                                .padding(.top, 10)
+                                LandingHeroView()
+                                    .padding(.top, 10)
                             }
                         } else {
                             // History Tab
@@ -295,94 +290,62 @@ public struct MainWindowView: View {
 }
 
 struct LandingHeroView: View {
-    let onPasteSample: (String) -> Void
-
     var body: some View {
-        VStack(spacing: 20) {
-            // Feature pillars
-            HStack(spacing: 16) {
-                FeatureCard(
-                    icon: "sparkles",
-                    title: "Max Video + Audio",
-                    description: "Automatically muxes the highest resolution stream with best bitrate audio losslessly.",
-                    tint: .purple
-                )
+        VStack(spacing: 16) {
+            Spacer()
+                .frame(height: 30)
 
-                FeatureCard(
-                    icon: "bolt.fill",
-                    title: "FFmpeg Pipeline",
-                    description: "High-speed background processing powered by ffmpeg and yt-dlp engines.",
-                    tint: .blue
-                )
-
-                FeatureCard(
-                    icon: "doc.on.clipboard.fill",
-                    title: "Smart Auto-Paste",
-                    description: "Detects YouTube links directly from your clipboard for instant one-click downloads.",
-                    tint: .cyan
-                )
-            }
-
-            VStack(spacing: 8) {
-                Text("How to use:")
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.secondary)
-
-                HStack(spacing: 8) {
-                    StepChip(num: "1", text: "Copy any YouTube link")
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.secondary.opacity(0.4))
-                        .font(.system(size: 10))
-                    StepChip(num: "2", text: "Inspect details & quality")
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.secondary.opacity(0.4))
-                        .font(.system(size: 10))
-                    StepChip(num: "3", text: "1-Click Download in 4K/1080p")
-                }
-            }
-            .padding(.top, 10)
-        }
-    }
-}
-
-struct FeatureCard: View {
-    let icon: String
-    let title: String
-    let description: String
-    let tint: Color
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
             ZStack {
                 Circle()
-                    .fill(tint.opacity(0.15))
-                    .frame(width: 36, height: 36)
+                    .fill(
+                        RadialGradient(
+                            colors: [Color.purple.opacity(0.25), Color.blue.opacity(0.08), Color.clear],
+                            center: .center,
+                            startRadius: 10,
+                            endRadius: 70
+                        )
+                    )
+                    .frame(width: 130, height: 130)
 
-                Image(systemName: icon)
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundColor(tint)
+                Image(systemName: "arrow.down.to.line.circle.fill")
+                    .font(.system(size: 52))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [Color.blue, Color.purple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
             }
 
-            Text(title)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.primary)
+            VStack(spacing: 6) {
+                Text("Ready to Download")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(.primary)
 
-            Text(description)
-                .font(.system(size: 11))
-                .foregroundColor(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineSpacing(2)
+                Text("Paste any YouTube video or shorts link above to get started.")
+                    .font(.system(size: 13))
+                    .foregroundColor(.secondary)
+            }
+
+            HStack(spacing: 8) {
+                StepChip(num: "1", text: "Copy link")
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary.opacity(0.4))
+                    .font(.system(size: 10))
+                StepChip(num: "2", text: "Inspect & choose quality")
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary.opacity(0.4))
+                    .font(.system(size: 10))
+                StepChip(num: "3", text: "Download in 4K/1080p")
+            }
+            .padding(.top, 8)
+
+            Spacer()
+                .frame(height: 20)
         }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14)
-                        .stroke(tint.opacity(0.2), lineWidth: 1)
-                )
-        )
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
     }
 }
 
