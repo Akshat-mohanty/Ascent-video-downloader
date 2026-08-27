@@ -105,7 +105,7 @@ public struct MainWindowView: View {
                                 // Hero Header
                                 VStack(spacing: 8) {
                                     Text("Ascent")
-                                        .font(.system(size: 32, weight: .bold))
+                                        .font(.system(size: 48, weight: .bold, design: .serif))
                                         .foregroundColor(.primary)
 
                                     // Stepper Pill Tracker
