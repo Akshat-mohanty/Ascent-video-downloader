@@ -102,20 +102,11 @@ public struct MainWindowView: View {
 
                         VStack(spacing: 24) {
                             if selectedTab == 0 {
-                                // Editorial Hero Header (Matching Screenshot Design)
+                                // Hero Header
                                 VStack(spacing: 8) {
-                                    Text("Download any\nYouTube video\n*instantly.*")
-                                        .font(.system(size: 34, weight: .bold, design: .serif))
-                                        .multilineTextAlignment(.center)
+                                    Text("Ascent")
+                                        .font(.system(size: 32, weight: .bold))
                                         .foregroundColor(.primary)
-                                        .lineSpacing(2)
-
-                                    Text("Paste any YouTube link to download video + audio\nin the highest possible quality.")
-                                        .font(.system(size: 13))
-                                        .foregroundColor(.secondary)
-                                        .multilineTextAlignment(.center)
-                                        .lineSpacing(3)
-                                        .padding(.top, 2)
 
                                     // Stepper Pill Tracker
                                     HStack(spacing: 12) {
