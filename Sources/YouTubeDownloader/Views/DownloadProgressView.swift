@@ -205,14 +205,12 @@ public struct DownloadProgressView: View {
                     Button(action: onCancel) {
                         HStack(spacing: 5) {
                             Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 11))
                             Text("Cancel Download")
+                                .font(.system(size: 12, weight: .medium))
                         }
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.red)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 7)
-                        .background(Color.red.opacity(0.1))
-                        .cornerRadius(8)
+                        .foregroundColor(.red.opacity(0.9))
+                        .padding(.vertical, 4)
                     }
                     .buttonStyle(.plain)
                 } else if task.status == .completed {
