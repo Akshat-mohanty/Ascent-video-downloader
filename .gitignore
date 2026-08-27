@@ -1,0 +1,15 @@
+# Swift Package Manager
+.build/
+Packages/
+*.xcodeproj
+*.xcworkspace
+
+# macOS
+.DS_Store
+*.swp
+*.lock
+/tmp/
+
+# Build artifacts
+# Keep source code, scripts, and configurations clean
+AetherTube.app/
