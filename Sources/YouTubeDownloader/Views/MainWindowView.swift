@@ -133,7 +133,8 @@ public struct MainWindowView: View {
                                     urlText: $urlInput,
                                     isLoading: isFetchingMetadata,
                                     onFetch: { fetchVideoInfo() },
-                                    onPasteAndFetch: { fetchVideoInfo() }
+                                    onPasteAndFetch: { fetchVideoInfo() },
+                                    onReset: { resetState() }
                                 )
                                 .frame(maxWidth: 640)
 

@@ -6,6 +6,7 @@ public struct URLInputView: View {
     public let isLoading: Bool
     public let onFetch: () -> Void
     public let onPasteAndFetch: () -> Void
+    public let onReset: () -> Void
 
     @ObservedObject private var clipboard = ClipboardObserver.shared
     @FocusState private var isFieldFocused: Bool
@@ -14,12 +15,14 @@ public struct URLInputView: View {
         urlText: Binding<String>,
         isLoading: Bool,
         onFetch: @escaping () -> Void,
-        onPasteAndFetch: @escaping () -> Void
+        onPasteAndFetch: @escaping () -> Void,
+        onReset: @escaping () -> Void = {}
     ) {
         self._urlText = urlText
         self.isLoading = isLoading
         self.onFetch = onFetch
         self.onPasteAndFetch = onPasteAndFetch
+        self.onReset = onReset
     }
 
     public var body: some View {
@@ -136,14 +139,34 @@ public struct URLInputView: View {
                     .disabled(urlText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
                 }
 
-                // Footer helper note
-                HStack(spacing: 5) {
-                    Image(systemName: "info.circle")
-                        .font(.system(size: 11))
-                    Text("Supports standard videos, shorts, podcasts, and livestreams")
-                        .font(.system(size: 11))
+                // Footer helper note & Reset action
+                HStack(alignment: .center) {
+                    HStack(spacing: 5) {
+                        Image(systemName: "info.circle")
+                            .font(.system(size: 11))
+                        Text("Supports standard videos, shorts, podcasts, and livestreams")
+                            .font(.system(size: 11))
+                    }
+                    .foregroundColor(Color.primary.opacity(0.45))
+
+                    Spacer()
+
+                    if !urlText.isEmpty {
+                        Button(action: {
+                            urlText = ""
+                            onReset()
+                        }) {
+                            HStack(spacing: 3) {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .font(.system(size: 9))
+                                Text("Reset")
+                                    .font(.system(size: 11, weight: .medium))
+                            }
+                            .foregroundColor(Color.primary.opacity(0.6))
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                .foregroundColor(Color.primary.opacity(0.45))
                 .padding(.top, 2)
             }
             .padding(18)
