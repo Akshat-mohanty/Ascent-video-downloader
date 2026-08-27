@@ -176,12 +176,25 @@ public final class YtDlpService: ObservableObject {
                         }
                     }
 
+                    // Parse destination from thumbnail conversion
+                    if trimmed.contains("[ThumbnailsConvertor]") || trimmed.contains("Converting thumbnail") {
+                        if let firstQuote = trimmed.firstIndex(of: "\""),
+                           let lastQuote = trimmed.lastIndex(of: "\""),
+                           firstQuote < lastQuote {
+                            let webpPath = String(trimmed[trimmed.index(after: firstQuote)..<lastQuote])
+                            let jpgPath = (webpPath as NSString).deletingPathExtension + ".jpg"
+                            finalFilePath = jpgPath
+                        }
+                    }
+
                     // Parse destination from direct download or extract: [download] Destination: ...
-                    if (trimmed.contains("[download] Destination:") || trimmed.contains("[ExtractAudio] Destination:")) {
-                        let parts = trimmed.components(separatedBy: "Destination:")
+                    if (trimmed.contains("[download] Destination:") || trimmed.contains("[ExtractAudio] Destination:") || trimmed.contains("Writing video thumbnail")) {
+                        let separator = trimmed.contains("Destination:") ? "Destination:" : "to:"
+                        let parts = trimmed.components(separatedBy: separator)
                         if let dest = parts.last?.trimmingCharacters(in: .whitespacesAndNewlines), !dest.isEmpty {
                             if !dest.contains(".f") { // Ignore intermediate temporary format parts like .f395.mp4
-                                finalFilePath = dest
+                                let cleanPath = dest.replacingOccurrences(of: ".webp", with: ".jpg")
+                                finalFilePath = cleanPath
                             }
                         }
                     }

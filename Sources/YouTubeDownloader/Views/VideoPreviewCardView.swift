@@ -196,7 +196,7 @@ public struct VideoPreviewCardView: View {
 
     private func isOptionAvailable(_ option: QualityOption) -> Bool {
         switch option {
-        case .maxQuality, .audioMp3, .audioM4a:
+        case .maxQuality, .audioMp3, .audioM4a, .thumbnail:
             return true
         case .uhd4k:
             return metadata.availableHeights.contains { $0 >= 2160 }
@@ -238,7 +238,7 @@ struct QualityPill: View {
                 VStack(alignment: .leading, spacing: 1) {
                     Text(option.shortTitle)
                         .font(.system(size: 12, weight: .bold))
-                    Text(option.isAudioOnly ? "Audio" : "Video")
+                    Text(option.typeLabel)
                         .font(.system(size: 9))
                         .opacity(isSelected ? 0.75 : 0.8)
                 }

@@ -8,6 +8,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
     case hd720 = "720p"
     case audioMp3 = "mp3"
     case audioM4a = "m4a"
+    case thumbnail = "thumb"
 
     public var id: String { rawValue }
 
@@ -20,6 +21,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .hd720: return "HD (720p)"
         case .audioMp3: return "Audio Only (MP3)"
         case .audioM4a: return "Audio Only (M4A)"
+        case .thumbnail: return "HD Thumbnail (JPG)"
         }
     }
 
@@ -32,6 +34,7 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .hd720: return "720p"
         case .audioMp3: return "MP3"
         case .audioM4a: return "M4A"
+        case .thumbnail: return "COVER"
         }
     }
 
@@ -40,11 +43,27 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         case .maxQuality: return "sparkles.tv.fill"
         case .uhd4k, .qhd1440, .fhd1080, .hd720: return "film.fill"
         case .audioMp3, .audioM4a: return "music.note"
+        case .thumbnail: return "photo.fill"
+        }
+    }
+
+    public var typeLabel: String {
+        switch self {
+        case .maxQuality, .uhd4k, .qhd1440, .fhd1080, .hd720:
+            return "Video"
+        case .audioMp3, .audioM4a:
+            return "Audio"
+        case .thumbnail:
+            return "Image"
         }
     }
 
     public var isAudioOnly: Bool {
         return self == .audioMp3 || self == .audioM4a
+    }
+
+    public var isThumbnail: Bool {
+        return self == .thumbnail
     }
 
     public func formatArguments() -> [String] {
@@ -88,6 +107,8 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
             return ["-x", "--audio-format", "mp3", "--audio-quality", "0"]
         case .audioM4a:
             return ["-x", "--audio-format", "m4a"]
+        case .thumbnail:
+            return ["--skip-download", "--write-thumbnail", "--convert-thumbnails", "jpg"]
         }
     }
 }
