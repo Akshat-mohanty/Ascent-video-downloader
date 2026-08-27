@@ -5,21 +5,16 @@ public struct SettingsSheetView: View {
     @Binding public var downloadDirectory: URL
     @Environment(\.dismiss) private var dismiss
 
-    @State private var ytDlpPath: String = BinaryResolver.shared.resolveYtDlp() ?? ""
-    @State private var ffmpegPath: String = BinaryResolver.shared.resolveFfmpeg() ?? ""
-    @State private var customYtDlp: String = BinaryResolver.shared.customYtDlpPath ?? ""
-    @State private var customFfmpeg: String = BinaryResolver.shared.customFfmpegPath ?? ""
-
     public init(downloadDirectory: Binding<URL>) {
         self._downloadDirectory = downloadDirectory
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 18) {
             // Header
             HStack {
                 Text("Preferences")
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.system(size: 16, weight: .bold))
                 Spacer()
                 Button("Done") {
                     dismiss()
@@ -35,6 +30,10 @@ public struct SettingsSheetView: View {
                     .font(.system(size: 13, weight: .semibold))
 
                 HStack {
+                    Image(systemName: "folder.fill")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 14))
+
                     Text(downloadDirectory.path)
                         .font(.system(size: 12))
                         .foregroundColor(.secondary)
@@ -47,79 +46,19 @@ public struct SettingsSheetView: View {
                         chooseFolder()
                     }
                 }
-                .padding(10)
+                .padding(12)
                 .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(8)
-            }
-
-            // Binary Dependencies
-            VStack(alignment: .leading, spacing: 12) {
-                Text("Engine & Merger Binaries")
-                    .font(.system(size: 13, weight: .semibold))
-
-                // yt-dlp
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Image(systemName: ytDlpPath.isEmpty ? "xmark.circle.fill" : "checkmark.circle.fill")
-                            .foregroundColor(ytDlpPath.isEmpty ? .red : .green)
-                        Text("yt-dlp Engine:")
-                            .font(.system(size: 12, weight: .medium))
-                        Spacer()
-                        if ytDlpPath.isEmpty {
-                            Text("Not Found")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(.red)
-                        } else {
-                            Text("Active")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(.green)
-                        }
-                    }
-
-                    Text(ytDlpPath.isEmpty ? "Install via Homebrew: brew install yt-dlp" : ytDlpPath)
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                }
-                .padding(10)
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(8)
-
-                // ffmpeg
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Image(systemName: ffmpegPath.isEmpty ? "xmark.circle.fill" : "checkmark.circle.fill")
-                            .foregroundColor(ffmpegPath.isEmpty ? .red : .green)
-                        Text("FFmpeg Merger:")
-                            .font(.system(size: 12, weight: .medium))
-                        Spacer()
-                        if ffmpegPath.isEmpty {
-                            Text("Not Found")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(.red)
-                        } else {
-                            Text("Active")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(.green)
-                        }
-                    }
-
-                    Text(ffmpegPath.isEmpty ? "Install via Homebrew: brew install ffmpeg" : ffmpegPath)
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                }
-                .padding(10)
-                .background(Color(nsColor: .controlBackgroundColor))
-                .cornerRadius(8)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.primary.opacity(0.08), lineWidth: 1)
+                )
             }
 
             Spacer()
         }
-        .padding(24)
-        .frame(width: 480, height: 380)
+        .padding(22)
+        .frame(width: 440, height: 180)
     }
 
     private func chooseFolder() {
