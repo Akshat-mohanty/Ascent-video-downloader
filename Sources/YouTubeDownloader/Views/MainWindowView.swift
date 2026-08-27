@@ -56,26 +56,6 @@ public struct MainWindowView: View {
 
                     Spacer()
 
-                    // Engine Status Pill
-                    HStack(spacing: 6) {
-                        Circle()
-                            .fill(Color.green)
-                            .frame(width: 6, height: 6)
-                        Text("yt-dlp & FFmpeg Active")
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(.secondary)
-                    }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(
-                        Capsule()
-                            .fill(Color(nsColor: .controlBackgroundColor))
-                            .overlay(
-                                Capsule()
-                                    .stroke(Color.primary.opacity(0.08), lineWidth: 1)
-                            )
-                    )
-
                     // Tab Segment
                     Picker("", selection: $selectedTab) {
                         Text("Download").tag(0)
