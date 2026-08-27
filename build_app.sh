@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_NAME="AetherTube"
+APP_NAME="Ascent"
 BUNDLE_NAME="${APP_NAME}.app"
 CONTENTS_DIR="${BUNDLE_NAME}/Contents"
 MACOS_DIR="${CONTENTS_DIR}/MacOS"

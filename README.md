@@ -1,4 +1,4 @@
-# AetherTube - Native macOS YouTube Downloader 🎬✨
+# Ascent - Native macOS YouTube Downloader 🎬✨
 
 A high-performance, aesthetic native macOS application built with **SwiftUI**, **yt-dlp**, and **FFmpeg** designed to download YouTube videos in the highest possible video and audio quality with seamless multiplexing.
 
@@ -29,9 +29,9 @@ A high-performance, aesthetic native macOS application built with **SwiftUI**, *
 ### Option 1: Launch the Built `.app` (Recommended)
 You can directly open the packaged native application:
 ```bash
-open "AetherTube.app"
+open "Ascent.app"
 ```
-Or double-click **`AetherTube.app`** in Finder and drag it into your `/Applications` folder or macOS Dock!
+Or double-click **`Ascent.app`** in Finder and drag it into your `/Applications` folder or macOS Dock!
 
 ### Option 2: Rebuild Anytime
 ```bash
@@ -47,7 +47,7 @@ swift run
 
 ## 🛠 Dependencies
 
-AetherTube automatically resolves `yt-dlp` and `ffmpeg` from Homebrew or standard system paths:
+Ascent automatically resolves `yt-dlp` and `ffmpeg` from Homebrew or standard system paths:
 - `yt-dlp` (`/opt/homebrew/bin/yt-dlp` or `/usr/local/bin/yt-dlp`)
 - `ffmpeg` (`/opt/homebrew/bin/ffmpeg` or `/usr/local/bin/ffmpeg`)
 

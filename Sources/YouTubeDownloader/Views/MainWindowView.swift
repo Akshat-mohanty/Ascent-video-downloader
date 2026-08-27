@@ -55,7 +55,7 @@ public struct MainWindowView: View {
 
                         VStack(alignment: .leading, spacing: 1) {
                             HStack(spacing: 6) {
-                                Text("AetherTube")
+                                Text("Ascent")
                                     .font(.system(size: 16, weight: .black, design: .rounded))
                                     .foregroundColor(.primary)
 

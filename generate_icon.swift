@@ -71,7 +71,7 @@ func createIcon(size: CGFloat) -> NSImage {
     return image
 }
 
-let iconsetDir = "/tmp/AetherTube.iconset"
+let iconsetDir = "/tmp/Ascent.iconset"
 try? FileManager.default.createDirectory(atPath: iconsetDir, withIntermediateDirectories: true)
 
 let sizes: [Int] = [16, 32, 64, 128, 256, 512, 1024]
@@ -90,7 +90,7 @@ for s in sizes {
 
 let process = Process()
 process.executableURL = URL(fileURLWithPath: "/usr/bin/iconutil")
-process.arguments = ["-c", "icns", iconsetDir, "-o", "AetherTube.app/Contents/Resources/AppIcon.icns"]
+process.arguments = ["-c", "icns", iconsetDir, "-o", "Ascent.app/Contents/Resources/AppIcon.icns"]
 try? process.run()
 process.waitUntilExit()
 print("Generated AppIcon.icns successfully!")
