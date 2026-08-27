@@ -126,7 +126,8 @@ public final class YtDlpService: ObservableObject {
                 "--newline",
                 "--no-playlist",
                 "--no-mtime",
-                "--print", "after_move:filepath",
+                "--no-simulate",
+                "--progress",
                 "-o", outputTemplate
             ]
 
@@ -163,9 +164,26 @@ public final class YtDlpService: ObservableObject {
                     let trimmed = singleLine.trimmingCharacters(in: .whitespacesAndNewlines)
                     if trimmed.isEmpty { continue }
 
-                    // Check if it's the final output file path printed by --print after_move:filepath
-                    if trimmed.hasPrefix("/") && FileManager.default.fileExists(atPath: trimmed) {
-                        finalFilePath = trimmed
+                    // Parse destination from merger: [Merger] Merging formats into "/path/to/file.mp4"
+                    if trimmed.contains("[Merger]") || trimmed.contains("Merging formats into") {
+                        if let firstQuote = trimmed.firstIndex(of: "\""),
+                           let lastQuote = trimmed.lastIndex(of: "\""),
+                           firstQuote < lastQuote {
+                            let path = String(trimmed[trimmed.index(after: firstQuote)..<lastQuote])
+                            if !path.isEmpty {
+                                finalFilePath = path
+                            }
+                        }
+                    }
+
+                    // Parse destination from direct download or extract: [download] Destination: ...
+                    if (trimmed.contains("[download] Destination:") || trimmed.contains("[ExtractAudio] Destination:")) {
+                        let parts = trimmed.components(separatedBy: "Destination:")
+                        if let dest = parts.last?.trimmingCharacters(in: .whitespacesAndNewlines), !dest.isEmpty {
+                            if !dest.contains(".f") { // Ignore intermediate temporary format parts like .f395.mp4
+                                finalFilePath = dest
+                            }
+                        }
                     }
 
                     if trimmed.contains("[Merger]") || trimmed.contains("[ffmpeg]") || trimmed.contains("Merging formats") {

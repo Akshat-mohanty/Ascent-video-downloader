@@ -97,75 +97,81 @@ public struct MainWindowView: View {
 
                 // Main Scrollable Area
                 ScrollView {
-                    VStack(spacing: 24) {
-                        if selectedTab == 0 {
-                            // Editorial Hero Header (Matching Screenshot Design)
-                            VStack(spacing: 8) {
-                                Text("Download any\nYouTube video\n*instantly.*")
-                                    .font(.system(size: 34, weight: .bold, design: .serif))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.primary)
-                                    .lineSpacing(2)
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 30)
 
-                                Text("Paste any YouTube link to download video + audio\nin the highest possible quality.")
-                                    .font(.system(size: 13))
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.center)
-                                    .lineSpacing(3)
-                                    .padding(.top, 2)
+                        VStack(spacing: 24) {
+                            if selectedTab == 0 {
+                                // Editorial Hero Header (Matching Screenshot Design)
+                                VStack(spacing: 8) {
+                                    Text("Download any\nYouTube video\n*instantly.*")
+                                        .font(.system(size: 34, weight: .bold, design: .serif))
+                                        .multilineTextAlignment(.center)
+                                        .foregroundColor(.primary)
+                                        .lineSpacing(2)
 
-                                // Stepper Pill Tracker
-                                HStack(spacing: 12) {
-                                    StepIndicator(number: "1", title: "Paste Link", isActive: currentMetadata == nil && currentDownloadTask == nil)
-                                    StepDivider()
-                                    StepIndicator(number: "2", title: "Inspect Quality", isActive: currentMetadata != nil && currentDownloadTask == nil)
-                                    StepDivider()
-                                    StepIndicator(number: "3", title: "Download & Merge", isActive: currentDownloadTask != nil)
+                                    Text("Paste any YouTube link to download video + audio\nin the highest possible quality.")
+                                        .font(.system(size: 13))
+                                        .foregroundColor(.secondary)
+                                        .multilineTextAlignment(.center)
+                                        .lineSpacing(3)
+                                        .padding(.top, 2)
+
+                                    // Stepper Pill Tracker
+                                    HStack(spacing: 12) {
+                                        StepIndicator(number: "1", title: "Paste Link", isActive: currentMetadata == nil && currentDownloadTask == nil)
+                                        StepDivider()
+                                        StepIndicator(number: "2", title: "Inspect Quality", isActive: currentMetadata != nil && currentDownloadTask == nil)
+                                        StepDivider()
+                                        StepIndicator(number: "3", title: "Download & Merge", isActive: currentDownloadTask != nil)
+                                    }
+                                    .padding(.top, 12)
                                 }
-                                .padding(.top, 12)
-                            }
-                            .padding(.top, 12)
 
-                            // Main Input Box (Design from Screenshot)
-                            URLInputView(
-                                urlText: $urlInput,
-                                isLoading: isFetchingMetadata,
-                                onFetch: { fetchVideoInfo() },
-                                onPasteAndFetch: { fetchVideoInfo() }
-                            )
-                            .frame(maxWidth: 640)
-
-                            // Active Download Progress or Video Preview
-                            if let task = currentDownloadTask {
-                                DownloadProgressView(
-                                    task: task,
-                                    onCancel: { cancelDownload() },
-                                    onReset: { resetState() }
+                                // Main Input Box (Design from Screenshot)
+                                URLInputView(
+                                    urlText: $urlInput,
+                                    isLoading: isFetchingMetadata,
+                                    onFetch: { fetchVideoInfo() },
+                                    onPasteAndFetch: { fetchVideoInfo() }
                                 )
                                 .frame(maxWidth: 640)
-                                .transition(.scale.combined(with: .opacity))
-                            } else if let metadata = currentMetadata {
-                                VideoPreviewCardView(
-                                    metadata: metadata,
-                                    selectedQuality: $selectedQuality,
-                                    downloadDirectory: $downloadDirectory,
-                                    onStartDownload: { startDownload() }
-                                )
-                                .frame(maxWidth: 640)
-                                .transition(.asymmetric(
-                                    insertion: .scale(scale: 0.96).combined(with: .opacity),
-                                    removal: .opacity
-                                ))
+
+                                // Active Download Progress or Video Preview
+                                if let task = currentDownloadTask {
+                                    DownloadProgressView(
+                                        task: task,
+                                        onCancel: { cancelDownload() },
+                                        onReset: { resetState() }
+                                    )
+                                    .frame(maxWidth: 640)
+                                    .transition(.scale.combined(with: .opacity))
+                                } else if let metadata = currentMetadata {
+                                    VideoPreviewCardView(
+                                        metadata: metadata,
+                                        selectedQuality: $selectedQuality,
+                                        downloadDirectory: $downloadDirectory,
+                                        onStartDownload: { startDownload() }
+                                    )
+                                    .frame(maxWidth: 640)
+                                    .transition(.asymmetric(
+                                        insertion: .scale(scale: 0.96).combined(with: .opacity),
+                                        removal: .opacity
+                                    ))
+                                }
+                            } else {
+                                // History Tab
+                                HistoryListView()
+                                    .frame(maxWidth: 680)
                             }
-                        } else {
-                            // History Tab
-                            HistoryListView()
-                                .frame(maxWidth: 680)
-                                .padding(.top, 12)
                         }
+                        .frame(maxWidth: 680)
+
+                        Spacer(minLength: 40)
                     }
+                    .frame(minHeight: 480)
+                    .frame(maxWidth: .infinity)
                     .padding(.horizontal, 24)
-                    .padding(.bottom, 36)
                 }
             }
         }
