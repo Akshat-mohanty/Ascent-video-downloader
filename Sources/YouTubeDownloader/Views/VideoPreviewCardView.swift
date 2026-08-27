@@ -98,22 +98,6 @@ public struct VideoPreviewCardView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-
-                    // Available Max Resolution Badges
-                    HStack(spacing: 6) {
-                        if metadata.availableHeights.contains(where: { $0 >= 2160 }) {
-                            BadgeView(text: "4K UHD", color: .pink)
-                        } else if metadata.availableHeights.contains(where: { $0 >= 1440 }) {
-                            BadgeView(text: "2K QHD", color: .indigo)
-                        } else if metadata.availableHeights.contains(where: { $0 >= 1080 }) {
-                            BadgeView(text: "1080p FHD", color: .blue)
-                        } else {
-                            BadgeView(text: "HD", color: .teal)
-                        }
-
-                        BadgeView(text: "Video + Audio Mux", color: .purple)
-                    }
-                    .padding(.top, 2)
                 }
 
                 Spacer()
@@ -239,25 +223,6 @@ public struct VideoPreviewCardView: View {
     }
 }
 
-struct BadgeView: View {
-    let text: String
-    let color: Color
-
-    var body: some View {
-        Text(text)
-            .font(.system(size: 10, weight: .bold))
-            .foregroundColor(color)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .background(color.opacity(0.15))
-            .cornerRadius(6)
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(color.opacity(0.3), lineWidth: 1)
-            )
-    }
-}
-
 struct QualityPill: View {
     let option: QualityOption
     let isSelected: Bool
@@ -275,20 +240,21 @@ struct QualityPill: View {
                         .font(.system(size: 12, weight: .bold))
                     Text(option.isAudioOnly ? "Audio" : "Video")
                         .font(.system(size: 9))
-                        .opacity(0.8)
+                        .opacity(isSelected ? 0.75 : 0.8)
                 }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(isSelected ? Color.blue.opacity(0.85) : Color(nsColor: .controlColor))
+                    .fill(isSelected ? Color.white : Color(nsColor: .controlColor))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(isSelected ? Color.cyan : Color.clear, lineWidth: 1.5)
+                            .stroke(isSelected ? Color.white : Color.clear, lineWidth: 1)
                     )
             )
-            .foregroundColor(isSelected ? .white : (isAvailable ? .primary : .secondary))
+            .foregroundColor(isSelected ? Color.black : (isAvailable ? .primary : .secondary))
+            .shadow(color: isSelected ? Color.black.opacity(0.12) : Color.clear, radius: 4, x: 0, y: 2)
             .opacity(isAvailable ? 1.0 : 0.6)
         }
         .buttonStyle(.plain)
