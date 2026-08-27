@@ -1,0 +1,23 @@
+# Set default behavior to automatically normalize line endings to LF
+* text=auto eol=lf
+
+# Source Code
+*.swift text diff=swift eol=lf
+*.sh text eol=lf
+*.py text diff=python eol=lf
+*.json text eol=lf
+*.plist text eol=lf
+*.xml text diff=xml eol=lf
+*.md text eol=lf
+
+# Binary Assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.mov binary
+*.mp4 binary
+*.zip binary
+*.tar.gz binary
