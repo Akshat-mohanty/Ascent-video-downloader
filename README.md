@@ -36,7 +36,6 @@ A high-performance native macOS application built with SwiftUI, yt-dlp, and FFmp
 ```bash
 open "Ascent.app"
 ```
-Or double-click `Ascent.app` in Finder and drag it into your `/Applications` folder or macOS Dock.
 ---
 
 ## License
