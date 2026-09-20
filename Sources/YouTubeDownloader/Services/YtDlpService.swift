@@ -44,6 +44,7 @@ public final class YtDlpService: ObservableObject {
                     "--no-playlist",
                     "--no-warnings",
                     "--skip-download",
+                    "--extractor-args", "youtube:player_client=android,ios,web",
                     cleanedURL
                 ]
 
@@ -128,6 +129,7 @@ public final class YtDlpService: ObservableObject {
                 "--no-mtime",
                 "--no-simulate",
                 "--progress",
+                "--extractor-args", "youtube:player_client=android,ios,web",
                 "-o", outputTemplate
             ]
 
