@@ -67,36 +67,36 @@ public enum QualityOption: String, CaseIterable, Identifiable, Codable {
         switch self {
         case .maxQuality:
             return [
-                "-f", "bestvideo[vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best",
-                "-S", "res,ext:mp4:m4a,vcodec:h264,acodec:m4a",
+                "-f", "bestvideo*+bestaudio/best",
+                "-S", "res,fps",
                 "--merge-output-format", "mp4",
                 "--recode-video", "mp4"
             ]
         case .uhd4k:
             return [
-                "-f", "bestvideo[height<=2160][vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[height<=2160]+bestaudio/best[height<=2160]/best",
-                "-S", "res:2160,ext:mp4:m4a,vcodec:h264,acodec:m4a",
+                "-f", "bestvideo*[height<=2160]+bestaudio/best[height<=2160]/best",
+                "-S", "res:2160,fps",
                 "--merge-output-format", "mp4",
                 "--recode-video", "mp4"
             ]
         case .qhd1440:
             return [
-                "-f", "bestvideo[height<=1440][vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[height<=1440]+bestaudio/best[height<=1440]/best",
-                "-S", "res:1440,ext:mp4:m4a,vcodec:h264,acodec:m4a",
+                "-f", "bestvideo*[height<=1440]+bestaudio/best[height<=1440]/best",
+                "-S", "res:1440,fps",
                 "--merge-output-format", "mp4",
                 "--recode-video", "mp4"
             ]
         case .fhd1080:
             return [
-                "-f", "bestvideo[height<=1080][vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[height<=1080]+bestaudio/best[height<=1080]/best",
-                "-S", "res:1080,ext:mp4:m4a,vcodec:h264,acodec:m4a",
+                "-f", "bestvideo*[height<=1080]+bestaudio/best[height<=1080]/best",
+                "-S", "res:1080,fps",
                 "--merge-output-format", "mp4",
                 "--recode-video", "mp4"
             ]
         case .hd720:
             return [
-                "-f", "bestvideo[height<=720][vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[height<=720]+bestaudio/best[height<=720]/best",
-                "-S", "res:720,ext:mp4:m4a,vcodec:h264,acodec:m4a",
+                "-f", "bestvideo*[height<=720]+bestaudio/best[height<=720]/best",
+                "-S", "res:720,fps",
                 "--merge-output-format", "mp4",
                 "--recode-video", "mp4"
             ]
